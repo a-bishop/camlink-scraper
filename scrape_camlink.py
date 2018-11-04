@@ -6,7 +6,6 @@ import pandas
 import os
 import re
 
-
 user = input("Enter your camlink username: ")
 pswd = getpass.getpass("Enter your camlink password: ")
 
@@ -29,25 +28,25 @@ submitButton.click()
 studentButton = wd.find_element_by_class_name("WBST_Bars")
 studentButton.click()
 
-timetableButton = wd.find_element_by_link_text("Step 3. Build My Timetable")
-timetableButton.click()
+myScheduleButton = wd.find_element_by_link_text("My class schedule")
+myScheduleButton.click()
 
-term = Select(wd.find_element_by_id("VAR1"))
-term.select_by_value("2019W")
+term = Select(wd.find_element_by_id("VAR4"))
+term.select_by_value("2018F")
 
-subject = Select(wd.find_element_by_id("LIST_VAR1_1"))
-subject.select_by_value("ICS")
-
-courseLevel = Select(wd.find_element_by_id("LIST_VAR2_1"))
-courseLevel.select_by_value("200")
-
-continueButton = wd.find_element_by_name("SUBMIT2")
-continueButton.click()
+submitButton2 = wd.find_element_by_class_name("shortButton")
+submitButton2.click()
 
 soup = BeautifulSoup(wd.page_source,"html.parser")
 
-for tag in soup.find_all("a", string=re.compile("^ICS")):
-  print(tag)
+# with open("classes.html", "w") as f:
+#   f.write(soup)
+
+classes = soup.find_all("a", id=re.compile("LIST_VAR6_"))
+for myClass in classes:
+  print("class: " + myClass.text)
+  info = myClass.parent.parent.next_sibling.next_sibling.contents[1]
+  print(info.contents[1].text + "\n")
 
 
 
