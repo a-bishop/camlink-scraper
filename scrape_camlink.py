@@ -1,10 +1,15 @@
 from selenium import webdriver
 from selenium.webdriver.support.ui import Select
 import getpass
+import sys
 from bs4 import BeautifulSoup
-import pandas
-import os
+import csv
 import re
+
+if '-v' in sys.argv:
+  verbose = True
+else:
+  verbose = False
 
 user = input("Enter your camlink username: ")
 pswd = getpass.getpass("Enter your camlink password: ")
@@ -44,21 +49,54 @@ soup = BeautifulSoup(wd.page_source,"html.parser")
 #   f.write(soup)
 
 courses = soup.find_all("a", id=re.compile("LIST_VAR6_"))
-for myCourse in courses:
-  print("class: " + myCourse.text)
-  info = myCourse.parent.parent.next_sibling.next_sibling.contents[1].contents[1].text
-  infoArray = info.split(',')
-  print(infoArray[0][22:])
-  for info in infoArray[1:]:
-    if "Lecture" in info:
-      index = info.index("Lecture")
-      print(info[index:])
-    elif "Laboratory" in info:
-      index = info.index("Laboratory")
-      print(info[index:])
-    elif "Bldg" or "Room" in info:
-      continue
-  print("\n")
+info = soup.find_all("p", id=re.compile("LIST_VAR12_"))
+courseInfo = dict(zip(courses, info))
+with open('courses.csv', 'w') as f:
+    writer = csv.writer(f)
+    titles = ['Course', 'Start Date', 'End Date', 'Type', 'Day', 'Time', 'Room']
+    writer.writerow(titles)
+    for course, info in courseInfo.items():
+      courseTitle = course.text
+      if verbose:
+        print("----COURSE----")
+        print(course)
+      if verbose:
+        print("-----INFO-----")
+      info = info.text.replace(',', '').split("\n")
+      for course in info:
+        courseInfo = []
+        courseInfo.append(courseTitle)
+        dateInfoSplit = re.split(r"(?<=\d{4})[ ]", course, 1)
+        startDateEndDate = re.split(r"(?<=\d{4})-", dateInfoSplit[0], 1)
+        startDate = startDateEndDate[0]
+        endDate = startDateEndDate[1]
+        if verbose:
+          print(startDate)
+          print(endDate)
+        courseInfo.append(startDate)
+        courseInfo.append(endDate)
+        try:
+          classRoomTimes = dateInfoSplit[1]
+        except:
+          classRoomTimes = ''
+        if classRoomTimes != '':
+          classRoomTimesSplit = re.split(r"(?<=-[ ]\d\d:\d\d\w\w)[ ]", classRoomTimes, 1)
+          classTypeDayTime = re.split(r"[ ]", classRoomTimesSplit[0], 2)
+          classType = classTypeDayTime[0]
+          classDay = classTypeDayTime[1]
+          classTime = classTypeDayTime[2]
+          if verbose:
+            print(classType)
+            print(classDay)
+            print(classTime)
+          courseInfo.append(classType)
+          courseInfo.append(classDay)
+          courseInfo.append(classTime)
+          RoomNum = classRoomTimesSplit[1]
+          if verbose:
+            print(RoomNum)
+          courseInfo.append(RoomNum)
+          writer.writerow(courseInfo)
 
 
 
