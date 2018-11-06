@@ -6,6 +6,7 @@ from bs4 import BeautifulSoup
 import csv
 import re
 
+# type in '-v' on command line for verbose flag
 if '-v' in sys.argv:
   verbose = True
 else:
@@ -59,7 +60,7 @@ with open('courses.csv', 'w') as f:
       courseTitle = course.text
       if verbose:
         print("----COURSE----")
-        print(course)
+        print(courseTitle)
       if verbose:
         print("-----INFO-----")
       info = info.text.replace(',', '').split("\n")
