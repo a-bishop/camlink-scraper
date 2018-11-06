@@ -15,7 +15,6 @@ else:
 user = input("Enter your camlink username: ")
 pswd = getpass.getpass("Enter your camlink password: ")
 myTerm = input("Enter the school term (ex. 2019W) ")
-print("\n")
 
 wd = webdriver.Chrome()
 url = "https://camlink1.camosun.bc.ca"
@@ -46,9 +45,6 @@ submitButton2 = wd.find_element_by_class_name("shortButton")
 submitButton2.click()
 
 soup = BeautifulSoup(wd.page_source,"html.parser")
-
-# with open("courses.html", "w") as f:
-#   f.write(soup)
 
 courses = soup.find_all("a", id=re.compile("LIST_VAR6_"))
 info = soup.find_all("p", id=re.compile("LIST_VAR12_"))
