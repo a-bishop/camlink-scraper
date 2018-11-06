@@ -2,13 +2,15 @@
 
 ### Description
 
-Uses the Selenium library with Beautiful Soup to login and scrape Camosun student timetable information by term and exports the data to a CSV file for use elsewhere.
+Uses the Selenium library with Beautiful Soup, to login and scrape Camosun student timetable information by term and export the data to a CSV file for use elsewhere.
 
 ### Dependencies
 
 #### Selenium
 
 ```pip install selenium```
+
+This program uses selenium's Chrome webdriver, so be sure to have Chrome browser installed.
 
 #### Beautiful Soup
 
