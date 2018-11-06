@@ -14,6 +14,7 @@ else:
 
 user = input("Enter your camlink username: ")
 pswd = getpass.getpass("Enter your camlink password: ")
+myTerm = input("Enter the school term (ex. 2019W) ")
 print("\n")
 
 wd = webdriver.Chrome()
@@ -39,7 +40,7 @@ myScheduleButton = wd.find_element_by_link_text("My class schedule")
 myScheduleButton.click()
 
 term = Select(wd.find_element_by_id("VAR4"))
-term.select_by_value("2018F")
+term.select_by_value(myTerm)
 
 submitButton2 = wd.find_element_by_class_name("shortButton")
 submitButton2.click()
@@ -52,7 +53,7 @@ soup = BeautifulSoup(wd.page_source,"html.parser")
 courses = soup.find_all("a", id=re.compile("LIST_VAR6_"))
 info = soup.find_all("p", id=re.compile("LIST_VAR12_"))
 courseInfo = dict(zip(courses, info))
-with open('courses.csv', 'w') as f:
+with open('camosunCourses' + myTerm + '.csv', 'w') as f:
     writer = csv.writer(f)
     titles = ['Course', 'Start Date', 'End Date', 'Type', 'Day', 'Time', 'Room']
     writer.writerow(titles)
