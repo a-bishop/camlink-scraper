@@ -6,19 +6,26 @@ Uses the Selenium library with Beautiful Soup, to login and scrape Camosun stude
 
 ### Dependencies
 
+#### Chrome Webdriver
+
+Mac (via homebrew):  
+```brew install chromedriver```
+
+Windows:  
+[ChromeDriver download site](http://chromedriver.chromium.org/downloads)  
+(place .exe file in C:\Windows folder)
+
 #### Selenium
 
-```pip install selenium```
-
-This program uses selenium's Chrome webdriver, so be sure to have Chrome browser installed.
+```[python 3 -m] pip install selenium```
 
 #### Beautiful Soup
 
-```pip install beautifulsoup4```
+```[python 3 -m] pip install beautifulsoup4```
 
 ### Usage
 
-```python scrape_camlink.py [-v]```
+```python[3] scrape_camlink.py [-v]```
 
 (```-v``` is the verbose flag, will cause the program print out more info about what's happening as it runs.)
 
