@@ -17,11 +17,11 @@ Windows:
 
 #### Selenium
 
-```[python 3 -m] pip install selenium```
+```[python3 -m] pip install selenium```
 
 #### Beautiful Soup
 
-```[python 3 -m] pip install beautifulsoup4```
+```[python3 -m] pip install beautifulsoup4```
 
 ### Usage
 
