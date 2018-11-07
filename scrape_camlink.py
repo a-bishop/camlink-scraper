@@ -12,9 +12,9 @@ if '-v' in sys.argv:
 else:
   verbose = False
 
-user = input("Enter your camlink username: ")
+user = input("Enter your camlink username: ").upper()
 pswd = getpass.getpass("Enter your camlink password: ")
-myTerm = input("Enter the school term (ex. 2019W) ")
+myTerm = input("Enter the school term (ex. 2019W) ").upper()
 
 wd = webdriver.Chrome()
 url = "https://camlink1.camosun.bc.ca"
