@@ -25,9 +25,9 @@ Uses the Selenium library with Beautiful Soup, to login and scrape Camosun stude
 
 ```python[3] scrape_camlink.py [-v] [-json]```
 
-(```-v``` is the verbose flag, will cause the program print out more info about what's happening as it runs.)
-
 Prompts for Camlink username, password and the school term to search for (ex. 2019W). Exports a CSV file to the current directory, named "camosunCourses[schoolterm].csv".
+
+```-v``` is the verbose flag, will cause the program print out more info about what's happening as it runs.
 
 If the ```-json``` flag is set, the program will additionally output a document with the same name into the current directory in json format.
 
