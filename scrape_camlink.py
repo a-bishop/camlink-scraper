@@ -4,6 +4,7 @@ import getpass
 import sys
 from bs4 import BeautifulSoup
 import csv
+import json
 import re
 
 # type in '-v' on command line for verbose flag
@@ -51,7 +52,7 @@ info = soup.find_all("p", id=re.compile("LIST_VAR12_"))
 courseInfo = dict(zip(courses, info))
 with open('camosunCourses' + myTerm + '.csv', 'w') as f:
     writer = csv.writer(f)
-    titles = ['Course', 'Start Date', 'End Date', 'Type', 'Day', 'Time', 'Room']
+    titles = ['Course', 'Start Date', 'End Date', 'Type', 'Day', 'Start Time', 'End Time', 'Room']
     writer.writerow(titles)
     for course, info in courseInfo.items():
       courseTitle = course.text
@@ -69,8 +70,8 @@ with open('camosunCourses' + myTerm + '.csv', 'w') as f:
         startDate = startDateEndDate[0]
         endDate = startDateEndDate[1]
         if verbose:
-          print(startDate)
-          print(endDate)
+          print("Start Date: %s" % startDate)
+          print("End Date: %s" % endDate)
         courseInfo.append(startDate)
         courseInfo.append(endDate)
         try:
@@ -83,18 +84,35 @@ with open('camosunCourses' + myTerm + '.csv', 'w') as f:
           classType = classTypeDayTime[0]
           classDay = classTypeDayTime[1]
           classTime = classTypeDayTime[2]
+          classTime = re.sub(' - ', ',', classTime)
+          classTimeSplit = re.split(',', classTime)
+          startTime = classTimeSplit[0]
+          endTime = classTimeSplit[1]
           if verbose:
-            print(classType)
-            print(classDay)
-            print(classTime)
+            print("Class Type: %s" % classType)
+            print("Class Day: %s" % classDay)
+            print("Start Time: %s" % startTime)
+            print("End Time: %s" % endTime)
           courseInfo.append(classType)
           courseInfo.append(classDay)
-          courseInfo.append(classTime)
-          RoomNum = classRoomTimesSplit[1]
+          courseInfo.append(startTime)
+          courseInfo.append(endTime)
+          roomNum = classRoomTimesSplit[1]
           if verbose:
-            print(RoomNum)
-          courseInfo.append(RoomNum)
+            print("Room: %s" % roomNum)
+          courseInfo.append(roomNum)
           writer.writerow(courseInfo)
+
+if "-json" in sys.argv:
+  with open('camosunCourses' + myTerm + '.json', 'w') as jsonfile:
+    with open('camosunCourses' + myTerm + '.csv', 'r') as csvfile:
+      fieldnames = ('Course','Start Date','End Date','Type','Day','Start Time','End Time','Room')
+      reader = csv.DictReader(csvfile, fieldnames)
+      for row in reader:
+          if reader.line_num == 1:
+            continue
+          json.dump(row, jsonfile)
+          jsonfile.write('\n')
 
 
 
