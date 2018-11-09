@@ -52,8 +52,9 @@ info = soup.find_all("p", id=re.compile("LIST_VAR12_"))
 courseInfo = dict(zip(courses, info))
 with open('camosunCourses' + myTerm + '.csv', 'w') as f:
     writer = csv.writer(f)
-    titles = ['Course', 'Start Date', 'End Date', 'Type', 'Day', 'Start Time', 'End Time', 'Room']
+    titles = ['ID', 'Course', 'StartDate', 'EndDate', 'Type', 'Day', 'StartTime', 'EndTime', 'Room']
     writer.writerow(titles)
+    courseId = 1
     for course, info in courseInfo.items():
       courseTitle = course.text
       if verbose:
@@ -64,6 +65,7 @@ with open('camosunCourses' + myTerm + '.csv', 'w') as f:
       info = info.text.replace(',', '').split("\n")
       for course in info:
         courseInfo = []
+        courseInfo.append(courseId)
         courseInfo.append(courseTitle)
         dateInfoSplit = re.split(r"(?<=\d{4})[ ]", course, 1)
         startDateEndDate = re.split(r"(?<=\d{4})-", dateInfoSplit[0], 1)
@@ -101,13 +103,15 @@ with open('camosunCourses' + myTerm + '.csv', 'w') as f:
           if verbose:
             print("Room: %s" % roomNum)
           courseInfo.append(roomNum)
-          writer.writerow(courseInfo)
+        writer.writerow(courseInfo)
+        courseId += 1
+        
 
 if "-json" in sys.argv:
   totalrows = sum(1 for line in open('camosunCourses' + myTerm + '.csv', 'r'))
   with open('camosunCourses' + myTerm + '.json', 'w') as jsonfile:
     with open('camosunCourses' + myTerm + '.csv', 'r') as csvfile:
-      fieldnames = ('Course','Start Date','End Date','Type','Day','Start Time','End Time','Room')
+      fieldnames = ('ID', 'Course','StartDate','EndDate','Type','Day','StartTime','EndTime','Room')
       dictReader = csv.DictReader(csvfile, fieldnames)
       for row in dictReader:
         if dictReader.line_num == 1:
