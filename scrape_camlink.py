@@ -104,15 +104,23 @@ with open('camosunCourses' + myTerm + '.csv', 'w') as f:
           writer.writerow(courseInfo)
 
 if "-json" in sys.argv:
+  totalrows = sum(1 for line in open('camosunCourses' + myTerm + '.csv', 'r'))
   with open('camosunCourses' + myTerm + '.json', 'w') as jsonfile:
     with open('camosunCourses' + myTerm + '.csv', 'r') as csvfile:
       fieldnames = ('Course','Start Date','End Date','Type','Day','Start Time','End Time','Room')
-      reader = csv.DictReader(csvfile, fieldnames)
-      for row in reader:
-          if reader.line_num == 1:
-            continue
+      dictReader = csv.DictReader(csvfile, fieldnames)
+      for row in dictReader:
+        if dictReader.line_num == 1:
+          jsonfile.write('{ "Courses": [')
+          jsonfile.write("\n")
+          continue
+        else:
           json.dump(row, jsonfile)
-          jsonfile.write('\n')
+        if dictReader.line_num != totalrows:
+          jsonfile.write(",\n")
+        else:
+          jsonfile.write("\n")
+      jsonfile.write("]}")
 
 
 
