@@ -115,7 +115,7 @@ if "-json" in sys.argv:
           jsonfile.write("\n")
           continue
         else:
-          json.dump(row, jsonfile)
+          json.dump(row, jsonfile, indent=4, separators=(',', ': '))
         if dictReader.line_num != totalrows:
           jsonfile.write(",\n")
         else:
