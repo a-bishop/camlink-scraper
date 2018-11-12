@@ -126,6 +126,8 @@ if "-json" in sys.argv:
           jsonfile.write("\n")
       jsonfile.write("]}")
 
+wd.quit()
+
 
 
 
