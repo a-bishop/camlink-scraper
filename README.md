@@ -2,7 +2,7 @@
 
 ### Description
 
-Uses the Selenium library with Beautiful Soup, to login and scrape Camosun student timetable information by term and export the data to a CSV file, or optionally a JSON file, for use elsewhere.
+Uses the Selenium library with Beautiful Soup, to login and scrape Camosun student timetable information by term and export the data to a CSV file, or optionally a JSON file, for use elsewhere. Use the [react-view-timetable](https://github.com/a-bishop/react-view-timetable) app to view the json data formatted as a weekly timetable.
 
 ### Instructions
 
