@@ -2,7 +2,7 @@
 
 ### Description
 
-Uses the Selenium library with Beautiful Soup to log in, scrape [Camosun College](http://camosun.ca/) student timetable information by term, and export the data to a CSV or JSON file. An example of how the info can be used to build a weekly class schedule is [hosted here](https://github.com/a-bishop/react-view-timetable).
+Uses the [Selenium](https://www.seleniumhq.org/) library with [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) to log in, scrape [Camosun College](http://camosun.ca/) student timetable information by term, and export the data to a CSV or JSON file. An example of how the info can be used to build a weekly class schedule is [hosted here](https://github.com/a-bishop/react-view-timetable).
 
 ### Instructions
 
